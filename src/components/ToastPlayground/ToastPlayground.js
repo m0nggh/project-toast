@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import Button from "../Button";
+import Toast from "../Toast";
 
 import styles from "./ToastPlayground.module.css";
 
@@ -9,6 +10,10 @@ const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 function ToastPlayground() {
   const [message, setMessage] = useState("");
   const [variant, setVariant] = useState(VARIANT_OPTIONS[0]);
+  const [shouldShowToast, setShouldShowToast] = useState(false);
+  const deactivateToast = () => {
+    setShouldShowToast(false);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -16,6 +21,12 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
+
+      {shouldShowToast && (
+        <Toast variant={variant} deactivateToast={deactivateToast}>
+          {message}
+        </Toast>
+      )}
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
@@ -61,7 +72,7 @@ function ToastPlayground() {
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
             <Button
               onClick={() => {
-                window.alert(`${variant}: ${message}`);
+                setShouldShowToast(true);
               }}
             >
               Pop Toast!
