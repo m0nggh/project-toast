@@ -19,7 +19,7 @@ const ICONS_BY_VARIANT = {
 };
 
 function Toast(props) {
-  const { variant, deactivateToast, children } = props;
+  const { id, variant, deactivateToast, children } = props;
   const VariantType = ICONS_BY_VARIANT[variant];
   return (
     <div className={`${styles.toast} ${styles[variant]}`}>
@@ -27,7 +27,10 @@ function Toast(props) {
         <VariantType size={24} />
       </div>
       <p className={styles.content}>{children}</p>
-      <button className={styles.closeButton} onClick={deactivateToast}>
+      <button
+        className={styles.closeButton}
+        onClick={() => deactivateToast(id)}
+      >
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
