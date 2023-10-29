@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 
 export const ToastProviderContext = createContext();
 
@@ -16,6 +16,22 @@ function ToastProvider(props) {
       variant: "success",
     },
   ]);
+
+  const handleKeyDown = useCallback((event) => {
+    if (event.key === "Escape") {
+      console.log("Remove all toasts!");
+      setToasts([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    // perform cleanup
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   function addToast(message, variant) {
     const toastId = crypto.randomUUID();
